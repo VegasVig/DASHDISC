@@ -1,4 +1,4 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbzTGljP3Oj1YKJMbQicmSeC5t_13zGtCQmiTt3sS7FCoeKsmQaBHb7AsAvIxQnjogqR/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzwWdhrj4pgd52M_1sslbSU4fN112XxcuR70KkvsqTzprAIeOkqWPIOJfow6q5rG-N4/exec";
 
 async function carregarDados() {
   const res = await fetch(API_URL);
