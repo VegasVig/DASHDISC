@@ -1,59 +1,72 @@
 body {
-  margin: 0;
-  font-family: Arial;
-  background: #0f0f0f;
-  color: white;
+  margin:0;
+  font-family:Segoe UI;
+  background:#0b0b0b;
+  color:white;
 }
 
 header {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  background: #1a1a1a;
-  padding: 15px;
+  display:flex;
+  align-items:center;
+  gap:15px;
+  background:#111;
+  padding:15px;
 }
 
-.logo {
-  width: 60px;
+.logo { width:60px; }
+
+.filtros {
+  display:flex;
+  gap:10px;
+  padding:15px;
 }
 
-h1 {
-  color: #f6ebeb;
+input, button {
+  padding:10px;
+  border:none;
+  border-radius:5px;
+}
+
+button {
+  background:#d01010;
+  color:white;
+  cursor:pointer;
 }
 
 .cards {
-  display: flex;
-  gap: 20px;
-  padding: 20px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:15px;
+  padding:20px;
 }
 
 .card {
-  background: #1f1f1f;
-  padding: 20px;
-  border-radius: 10px;
-  flex: 1;
-  text-align: center;
-  box-shadow: 0 0 10px #000;
-}
-
-.card h3 {
-  color: #aaa;
-}
-
-.card p {
-  font-size: 28px;
-  color: #f6ebeb;
+  background:#1c1c1c;
+  padding:20px;
+  border-radius:10px;
+  text-align:center;
 }
 
 .charts {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-  padding: 20px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:20px;
+  padding:20px;
 }
 
 .chart-box {
-  background: #1f1f1f;
-  padding: 20px;
-  border-radius: 10px;
+  background:#1c1c1c;
+  padding:15px;
+  border-radius:10px;
+}
+
+table {
+  width:100%;
+  border-collapse:collapse;
+}
+
+th, td {
+  padding:10px;
+  border-bottom:1px solid #333;
+  text-align:center;
 }

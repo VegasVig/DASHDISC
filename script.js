@@ -1,91 +1,96 @@
 const API_URL = "https://script.google.com/macros/s/AKfycbzwWdhrj4pgd52M_1sslbSU4fN112XxcuR70KkvsqTzprAIeOkqWPIOJfow6q5rG-N4/exec";
 
+let dadosGlobais = [];
+
 async function carregarDados() {
   const res = await fetch(API_URL);
-  const data = await res.json();
+  dadosGlobais = await res.json();
+  atualizarDashboard(dadosGlobais);
+}
 
-  let total = data.length;
+function filtrar() {
+  const nome = document.getElementById("busca").value.toLowerCase();
+  const inicio = document.getElementById("dataInicio").value;
+  const fim = document.getElementById("dataFim").value;
 
-  document.getElementById("total").innerText = total;
+  let filtrado = dadosGlobais.filter(item => {
+    let matchNome = item.nome.toLowerCase().includes(nome);
 
-  let perfis = { D: 0, I: 0, S: 0, C: 0 };
+    let data = new Date(item.data);
+    let matchData = true;
 
-  let interno = { D: 0, I: 0, S: 0, C: 0 };
-  let recrutamento = { D: 0, I: 0, S: 0, C: 0 };
+    if (inicio) matchData = data >= new Date(inicio);
+    if (fim) matchData = data <= new Date(fim);
 
-  let soma = { D: 0, I: 0, S: 0, C: 0 };
-
-  data.forEach(item => {
-    let p = item.perfil;
-
-    perfis[p]++;
-    soma.D += item.D;
-    soma.I += item.I;
-    soma.S += item.S;
-    soma.C += item.C;
-
-    if (item.tipo === "interno") interno[p]++;
-    else recrutamento[p]++;
+    return matchNome && matchData;
   });
 
-  // Perfil mais comum
-  let top = Object.keys(perfis).reduce((a, b) => perfis[a] > perfis[b] ? a : b);
+  atualizarDashboard(filtrado);
+}
+
+function atualizarDashboard(data) {
+  document.getElementById("total").innerText = data.length;
+
+  let perfis = {D:0,I:0,S:0,C:0};
+  let soma = {D:0,I:0,S:0,C:0};
+
+  let tabela = "";
+
+  data.forEach(d => {
+    perfis[d.perfil]++;
+    soma.D += d.D;
+    soma.I += d.I;
+    soma.S += d.S;
+    soma.C += d.C;
+
+    tabela += `
+      <tr>
+        <td>${d.nome}</td>
+        <td>${d.perfil}</td>
+        <td>${d.D}</td>
+        <td>${d.I}</td>
+        <td>${d.S}</td>
+        <td>${d.C}</td>
+      </tr>
+    `;
+  });
+
+  document.getElementById("tabela").innerHTML = tabela;
+
+  let top = Object.keys(perfis).reduce((a,b)=> perfis[a]>perfis[b]?a:b);
   document.getElementById("topPerfil").innerText = top;
 
-  // Última data
-  document.getElementById("ultima").innerText = data[data.length - 1]?.data;
+  document.getElementById("mediaD").innerText = (soma.D/data.length).toFixed(1);
+  document.getElementById("mediaI").innerText = (soma.I/data.length).toFixed(1);
 
-  criarGraficoPerfis(perfis);
-  criarGraficoMedia(soma, total);
-  criarGraficoComparacao(interno, recrutamento);
+  criarGrafico(perfis, soma, data.length);
 }
 
-function criarGraficoPerfis(perfis) {
+function criarGrafico(perfis, soma, total) {
+
   new Chart(document.getElementById("perfilChart"), {
     type: "doughnut",
-    data: {
-      labels: ["D", "I", "S", "C"],
-      datasets: [{
-        data: Object.values(perfis),
-      }]
-    }
+    data: { labels:["D","I","S","C"], datasets:[{ data:Object.values(perfis)}]}
   });
-}
 
-function criarGraficoMedia(soma, total) {
   new Chart(document.getElementById("mediaChart"), {
     type: "bar",
     data: {
-      labels: ["D", "I", "S", "C"],
-      datasets: [{
-        data: [
-          soma.D / total,
-          soma.I / total,
-          soma.S / total,
-          soma.C / total
-        ]
-      }]
+      labels:["D","I","S","C"],
+      datasets:[{ data:[
+        soma.D/total,
+        soma.I/total,
+        soma.S/total,
+        soma.C/total
+      ]}]
     }
   });
+
 }
 
-function criarGraficoComparacao(interno, recrutamento) {
-  new Chart(document.getElementById("comparacaoChart"), {
-    type: "bar",
-    data: {
-      labels: ["D", "I", "S", "C"],
-      datasets: [
-        {
-          label: "Interno",
-          data: Object.values(interno)
-        },
-        {
-          label: "Recrutamento",
-          data: Object.values(recrutamento)
-        }
-      ]
-    }
-  });
+function exportarPDF() {
+  const element = document.body;
+  html2pdf().from(element).save("dashboard-disc.pdf");
 }
 
 carregarDados();

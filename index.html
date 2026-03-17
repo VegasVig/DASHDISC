@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>Dashboard DISC - Vegas</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard DISC Vegas</title>
 
-  <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -17,38 +18,42 @@
   <h1>Dashboard DISC - Vegas Vigilância</h1>
 </header>
 
+<section class="filtros">
+  <input type="text" id="busca" placeholder="Buscar funcionário...">
+  <input type="date" id="dataInicio">
+  <input type="date" id="dataFim">
+  <button onclick="filtrar()">Filtrar</button>
+  <button onclick="exportarPDF()">Exportar PDF</button>
+</section>
+
 <section class="cards">
-  <div class="card">
-    <h3>Total Avaliações</h3>
-    <p id="total">0</p>
-  </div>
-
-  <div class="card">
-    <h3>Perfil Mais Comum</h3>
-    <p id="topPerfil">-</p>
-  </div>
-
-  <div class="card">
-    <h3>Última Avaliação</h3>
-    <p id="ultima">-</p>
-  </div>
+  <div class="card"><h3>Total</h3><p id="total"></p></div>
+  <div class="card"><h3>Perfil Dominante</h3><p id="topPerfil"></p></div>
+  <div class="card"><h3>Média D</h3><p id="mediaD"></p></div>
+  <div class="card"><h3>Média I</h3><p id="mediaI"></p></div>
 </section>
 
 <section class="charts">
-  <div class="chart-box">
-    <h2>Distribuição de Perfis</h2>
-    <canvas id="perfilChart"></canvas>
-  </div>
+  <div class="chart-box"><canvas id="perfilChart"></canvas></div>
+  <div class="chart-box"><canvas id="mediaChart"></canvas></div>
+  <div class="chart-box"><canvas id="comparacaoChart"></canvas></div>
+</section>
 
-  <div class="chart-box">
-    <h2>Média DISC (%)</h2>
-    <canvas id="mediaChart"></canvas>
-  </div>
-
-  <div class="chart-box">
-    <h2>Interno vs Recrutamento</h2>
-    <canvas id="comparacaoChart"></canvas>
-  </div>
+<section class="ranking">
+  <h2>Ranking de Perfis</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Perfil</th>
+        <th>D</th>
+        <th>I</th>
+        <th>S</th>
+        <th>C</th>
+      </tr>
+    </thead>
+    <tbody id="tabela"></tbody>
+  </table>
 </section>
 
 <script src="script.js"></script>
