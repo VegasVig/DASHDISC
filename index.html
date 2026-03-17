@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard DISC - Vegas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<header>
+  <img src="assets/vegaslogo1.jpg" class="logo">
+  <h1>Dashboard DISC - Vegas Vigilância</h1>
+</header>
+
+<section class="cards">
+  <div class="card">
+    <h3>Total Avaliações</h3>
+    <p id="total">0</p>
+  </div>
+
+  <div class="card">
+    <h3>Perfil Mais Comum</h3>
+    <p id="topPerfil">-</p>
+  </div>
+
+  <div class="card">
+    <h3>Última Avaliação</h3>
+    <p id="ultima">-</p>
+  </div>
+</section>
+
+<section class="charts">
+  <div class="chart-box">
+    <h2>Distribuição de Perfis</h2>
+    <canvas id="perfilChart"></canvas>
+  </div>
+
+  <div class="chart-box">
+    <h2>Média DISC (%)</h2>
+    <canvas id="mediaChart"></canvas>
+  </div>
+
+  <div class="chart-box">
+    <h2>Interno vs Recrutamento</h2>
+    <canvas id="comparacaoChart"></canvas>
+  </div>
+</section>
+
+<script src="script.js"></script>
+
+</body>
+</html>
