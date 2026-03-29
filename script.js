@@ -1,29 +1,41 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbz9sfBA6YpjsxsPQSY8eePEorHuNOW4RU5_1mozauKWAFd2xf74r7aTjMSyoUMAOHok/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzwWdhrj4pgd52M_1sslbSU4fN112XxcuR70KkvsqTzprAIeOkqWPIOJfow6q5rG-N4/exec";
 
 let dadosGlobais = [];
+let chartPerfil = null;
+let chartMedia = null;
 
+// =====================
+// FETCH CORRETO (SEM NO-CORS)
+// =====================
 async function carregarDados() {
   try {
-    const res = await fetch(API_URL + "?t=" + new Date().getTime()); // evita cache
+    const res = await fetch(API_URL);
+
+    if (!res.ok) {
+      throw new Error("Erro na resposta da API");
+    }
+
     const data = await res.json();
 
-    dadosGlobais = data || [];
-    atualizarDashboard(dadosGlobais);
+    dadosGlobais = data;
+
+    atualizarDashboard(data);
 
   } catch (erro) {
     console.error("Erro ao carregar:", erro);
-    alert("Erro ao conectar com API");
+    alert("Erro ao conectar com API - verifique o Apps Script");
   }
 }
 
+// =====================
+// FILTRO
+// =====================
 function filtrar() {
   const nome = document.getElementById("busca").value.toLowerCase();
   const inicio = document.getElementById("dataInicio").value;
   const fim = document.getElementById("dataFim").value;
 
   let filtrado = dadosGlobais.filter(item => {
-    if (!item.nome) return false;
-
     let matchNome = item.nome.toLowerCase().includes(nome);
 
     let data = new Date(item.data);
@@ -38,14 +50,13 @@ function filtrar() {
   atualizarDashboard(filtrado);
 }
 
+// =====================
+// DASHBOARD
+// =====================
 function atualizarDashboard(data) {
 
-  // ✅ ORDENA POR NOME (A → Z)
-  data.sort((a, b) => {
-    if (!a.nome) return 1;
-    if (!b.nome) return -1;
-    return a.nome.localeCompare(b.nome, 'pt-BR', { sensitivity: 'base' });
-  });
+  // ORDEM ALFABÉTICA
+  data.sort((a, b) => a.nome.localeCompare(b.nome));
 
   document.getElementById("total").innerText = data.length;
 
@@ -55,23 +66,20 @@ function atualizarDashboard(data) {
   let tabela = "";
 
   data.forEach(d => {
-    if (!d.nome) return;
-
-    perfis[d.perfil] = (perfis[d.perfil] || 0) + 1;
-
-    soma.D += Number(d.D) || 0;
-    soma.I += Number(d.I) || 0;
-    soma.S += Number(d.S) || 0;
-    soma.C += Number(d.C) || 0;
+    perfis[d.perfil]++;
+    soma.D += d.D;
+    soma.I += d.I;
+    soma.S += d.S;
+    soma.C += d.C;
 
     tabela += `
       <tr>
         <td>${d.nome}</td>
         <td>${d.perfil}</td>
-        <td>${d.D}</td>
-        <td>${d.I}</td>
-        <td>${d.S}</td>
-        <td>${d.C}</td>
+        <td>${d.D}%</td>
+        <td>${d.I}%</td>
+        <td>${d.S}%</td>
+        <td>${d.C}%</td>
       </tr>
     `;
   });
@@ -80,35 +88,42 @@ function atualizarDashboard(data) {
 
   let total = data.length || 1;
 
-  let top = Object.keys(perfis).reduce((a,b)=> perfis[a]>perfis[b]?a:b, "D");
-  document.getElementById("topPerfil").innerText = top;
+  // PERCENTUAIS
+  document.getElementById("percD").innerText = ((perfis.D/total)*100).toFixed(1)+"%";
+  document.getElementById("percI").innerText = ((perfis.I/total)*100).toFixed(1)+"%";
+  document.getElementById("percS").innerText = ((perfis.S/total)*100).toFixed(1)+"%";
+  document.getElementById("percC").innerText = ((perfis.C/total)*100).toFixed(1)+"%";
 
-  document.getElementById("mediaD").innerText = (soma.D/total).toFixed(1);
-  document.getElementById("mediaI").innerText = (soma.I/total).toFixed(1);
+  let top = Object.keys(perfis).reduce((a,b)=> perfis[a]>perfis[b]?a:b);
+  document.getElementById("topPerfil").innerText = top;
 
   criarGrafico(perfis, soma, total);
 }
 
+// =====================
+// GRÁFICOS (SEM DUPLICAR BUG)
+// =====================
 function criarGrafico(perfis, soma, total) {
 
-  // 🔥 destrói gráfico anterior (evita bug duplicado)
-  if (window.chart1) window.chart1.destroy();
-  if (window.chart2) window.chart2.destroy();
+  if (chartPerfil) chartPerfil.destroy();
+  if (chartMedia) chartMedia.destroy();
 
-  window.chart1 = new Chart(document.getElementById("perfilChart"), {
+  chartPerfil = new Chart(document.getElementById("perfilChart"), {
     type: "doughnut",
     data: {
-      labels:["D","I","S","C"],
-      datasets:[{ data:Object.values(perfis) }]
+      labels: ["D","I","S","C"],
+      datasets: [{
+        data: Object.values(perfis)
+      }]
     }
   });
 
-  window.chart2 = new Chart(document.getElementById("mediaChart"), {
+  chartMedia = new Chart(document.getElementById("mediaChart"), {
     type: "bar",
     data: {
-      labels:["D","I","S","C"],
-      datasets:[{
-        data:[
+      labels: ["D","I","S","C"],
+      datasets: [{
+        data: [
           soma.D/total,
           soma.I/total,
           soma.S/total,
@@ -119,9 +134,14 @@ function criarGrafico(perfis, soma, total) {
   });
 }
 
+// =====================
+// PDF
+// =====================
 function exportarPDF() {
-  const element = document.body;
-  html2pdf().from(element).save("dashboard-disc.pdf");
+  html2pdf().from(document.body).save("dashboard-disc.pdf");
 }
 
+// =====================
+// START
+// =====================
 carregarDados();

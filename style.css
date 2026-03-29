@@ -1,72 +1,113 @@
 body {
-  margin:0;
-  font-family:Segoe UI;
-  background:#0b0b0b;
-  color:white;
+  margin: 0;
+  font-family: 'Segoe UI';
+  background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+  color: #fff;
 }
 
 header {
-  display:flex;
-  align-items:center;
-  gap:15px;
-  background:#111;
-  padding:15px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  background: #111;
+  border-bottom: 2px solid #d01010;
 }
 
-.logo { width:60px; }
+.logo {
+  width: 60px;
+  border-radius: 10px;
+}
+
+h1 {
+  color: #d01010;
+}
 
 .filtros {
-  display:flex;
-  gap:10px;
-  padding:15px;
+  padding: 20px;
+  display: flex;
+  gap: 10px;
 }
 
-input, button {
-  padding:10px;
-  border:none;
-  border-radius:5px;
+.filtros input, button {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
 }
 
 button {
-  background:#d01010;
-  color:white;
-  cursor:pointer;
+  background: #d01010;
+  color: white;
+  cursor: pointer;
 }
 
 .cards {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-  gap:15px;
-  padding:20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
+  gap: 15px;
+  padding: 20px;
 }
 
 .card {
-  background:#1c1c1c;
-  padding:20px;
-  border-radius:10px;
-  text-align:center;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  padding: 15px;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.glow {
+  box-shadow: 0 0 15px rgba(208,16,16,0.5);
 }
 
 .charts {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-  gap:20px;
-  padding:20px;
+  display: flex;
+  gap: 20px;
+  padding: 20px;
 }
 
 .chart-box {
-  background:#1c1c1c;
-  padding:15px;
-  border-radius:10px;
+  flex: 1;
+  background: #111;
+  padding: 15px;
+  border-radius: 15px;
+}
+
+.disc-info {
+  padding: 20px;
+}
+
+.disc-grid {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 10px;
+}
+
+.disc-card {
+  padding: 15px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.d { background: #ff4d4d; }
+.i { background: #ffcc00; }
+.s { background: #33cc99; }
+.c { background: #3399ff; }
+
+.ranking {
+  padding: 20px;
 }
 
 table {
-  width:100%;
-  border-collapse:collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 th, td {
-  padding:10px;
-  border-bottom:1px solid #333;
-  text-align:center;
+  padding: 10px;
+  border-bottom: 1px solid #333;
+}
+
+tr:hover {
+  background: rgba(255,255,255,0.05);
 }

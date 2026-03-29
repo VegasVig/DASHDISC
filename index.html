@@ -6,6 +6,7 @@
 <title>Dashboard DISC Vegas</title>
 
 <link rel="stylesheet" href="style.css">
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
@@ -15,7 +16,7 @@
 
 <header>
   <img src="assets/vegaslogo1.jpg" class="logo">
-  <h1>Dashboard DISC - Vegas Vigilância</h1>
+  <h1>Dashboard DISC</h1>
 </header>
 
 <section class="filtros">
@@ -27,20 +28,70 @@
 </section>
 
 <section class="cards">
-  <div class="card"><h3>Total</h3><p id="total"></p></div>
-  <div class="card"><h3>Perfil Dominante</h3><p id="topPerfil"></p></div>
-  <div class="card"><h3>Média D</h3><p id="mediaD"></p></div>
-  <div class="card"><h3>Média I</h3><p id="mediaI"></p></div>
+  <div class="card glow">
+    <h3>Total</h3>
+    <p id="total"></p>
+  </div>
+
+  <div class="card glow">
+    <h3>Perfil Dominante</h3>
+    <p id="topPerfil"></p>
+  </div>
+
+  <div class="card glow">
+    <h3>% D</h3>
+    <p id="percD"></p>
+  </div>
+
+  <div class="card glow">
+    <h3>% I</h3>
+    <p id="percI"></p>
+  </div>
+
+  <div class="card glow">
+    <h3>% S</h3>
+    <p id="percS"></p>
+  </div>
+
+  <div class="card glow">
+    <h3>% C</h3>
+    <p id="percC"></p>
+  </div>
 </section>
 
 <section class="charts">
   <div class="chart-box"><canvas id="perfilChart"></canvas></div>
   <div class="chart-box"><canvas id="mediaChart"></canvas></div>
-  <div class="chart-box"><canvas id="comparacaoChart"></canvas></div>
+</section>
+
+<section class="disc-info">
+  <h2>Perfis DISC</h2>
+
+  <div class="disc-grid">
+    <div class="disc-card d">
+      <h3>D - Dominância</h3>
+      <p>Foco em resultados, decisões rápidas e liderança.</p>
+    </div>
+
+    <div class="disc-card i">
+      <h3>I - Influência</h3>
+      <p>Comunicação, persuasão e relacionamento.</p>
+    </div>
+
+    <div class="disc-card s">
+      <h3>S - Estabilidade</h3>
+      <p>Paciência, cooperação e constância.</p>
+    </div>
+
+    <div class="disc-card c">
+      <h3>C - Conformidade</h3>
+      <p>Organização, precisão e análise.</p>
+    </div>
+  </div>
 </section>
 
 <section class="ranking">
-  <h2>Ranking de Perfis</h2>
+  <h2>Ranking</h2>
   <table>
     <thead>
       <tr>
