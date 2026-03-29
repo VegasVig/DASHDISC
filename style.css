@@ -149,3 +149,49 @@ tr:hover {
 td:nth-child(2) {
   color: #00e0ff; /* destaque no perfil */
 }
+/* 📱 RESPONSIVIDADE MOBILE */
+@media (max-width: 768px) {
+
+  .container {
+    padding: 10px;
+  }
+
+  /* HEADER */
+  .header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .logo {
+    width: 40px;
+  }
+
+  /* FILTROS */
+  .filtros {
+    flex-direction: column;
+  }
+
+  .filtros input,
+  .filtros button {
+    width: 100%;
+  }
+
+  /* CARDS */
+  .cards {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* GRÁFICOS */
+  .charts {
+    grid-template-columns: 1fr;
+  }
+
+  /* TABELA - SCROLL HORIZONTAL */
+  .tabela-box {
+    overflow-x: auto;
+  }
+
+  table {
+    min-width: 600px;
+  }
+}
