@@ -125,13 +125,27 @@ button {
 table {
   width: 100%;
   border-collapse: collapse;
+  background: rgba(255,255,255,0.03);
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-th, td {
-  padding: 10px;
-  border-bottom: 1px solid #333;
+th {
+  background: linear-gradient(90deg, #545151, #a59b9b);
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+tr {
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
 tr:hover {
   background: rgba(255,255,255,0.05);
+  transition: 0.3s;
+}
+
+td:nth-child(2) {
+  color: #00e0ff; /* destaque no perfil */
 }
