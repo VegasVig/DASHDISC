@@ -1,41 +1,59 @@
 const API_URL = "https://script.google.com/macros/s/AKfycbzwWdhrj4pgd52M_1sslbSU4fN112XxcuR70KkvsqTzprAIeOkqWPIOJfow6q5rG-N4/exec";
 
 let dadosGlobais = [];
+let abaAtual = "interno";
+
 let chartPerfil = null;
 let chartMedia = null;
 
 // =====================
-// FETCH CORRETO (SEM NO-CORS)
+// FETCH
 // =====================
 async function carregarDados() {
   try {
     const res = await fetch(API_URL);
 
     if (!res.ok) {
-      throw new Error("Erro na resposta da API");
+      throw new Error("Erro na API");
     }
 
     const data = await res.json();
 
     dadosGlobais = data;
 
-    atualizarDashboard(data);
+    aplicarFiltroAtual();
 
   } catch (erro) {
     console.error("Erro ao carregar:", erro);
-    alert("Erro ao conectar com API - verifique o Apps Script");
+    alert("Erro ao conectar com API");
   }
 }
 
 // =====================
-// FILTRO
+// TROCAR ABA
 // =====================
-function filtrar() {
+function trocarAba(tipo) {
+  abaAtual = tipo;
+
+  document.querySelectorAll(".aba").forEach(btn => btn.classList.remove("ativa"));
+  event.target.classList.add("ativa");
+
+  aplicarFiltroAtual();
+}
+
+// =====================
+// FILTRO CENTRAL
+// =====================
+function aplicarFiltroAtual() {
+
   const nome = document.getElementById("busca").value.toLowerCase();
   const inicio = document.getElementById("dataInicio").value;
   const fim = document.getElementById("dataFim").value;
 
   let filtrado = dadosGlobais.filter(item => {
+
+    let matchTipo = item.tipo === abaAtual;
+
     let matchNome = item.nome.toLowerCase().includes(nome);
 
     let data = new Date(item.data);
@@ -44,10 +62,17 @@ function filtrar() {
     if (inicio) matchData = data >= new Date(inicio);
     if (fim) matchData = data <= new Date(fim);
 
-    return matchNome && matchData;
+    return matchTipo && matchNome && matchData;
   });
 
   atualizarDashboard(filtrado);
+}
+
+// =====================
+// BOTÃO FILTRAR
+// =====================
+function filtrar() {
+  aplicarFiltroAtual();
 }
 
 // =====================
@@ -55,7 +80,7 @@ function filtrar() {
 // =====================
 function atualizarDashboard(data) {
 
-  // ORDEM ALFABÉTICA
+  // ORDENA ALFABETICAMENTE
   data.sort((a, b) => a.nome.localeCompare(b.nome));
 
   document.getElementById("total").innerText = data.length;
@@ -94,6 +119,7 @@ function atualizarDashboard(data) {
   document.getElementById("percS").innerText = ((perfis.S/total)*100).toFixed(1)+"%";
   document.getElementById("percC").innerText = ((perfis.C/total)*100).toFixed(1)+"%";
 
+  // PERFIL DOMINANTE
   let top = Object.keys(perfis).reduce((a,b)=> perfis[a]>perfis[b]?a:b);
   document.getElementById("topPerfil").innerText = top;
 
@@ -101,7 +127,7 @@ function atualizarDashboard(data) {
 }
 
 // =====================
-// GRÁFICOS (SEM DUPLICAR BUG)
+// GRÁFICOS
 // =====================
 function criarGrafico(perfis, soma, total) {
 

@@ -55,6 +55,30 @@ button {
   border-radius: 15px;
   text-align: center;
 }
+.abas {
+  display: flex;
+  gap: 10px;
+  padding: 20px;
+}
+
+.aba {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #222;
+  color: white;
+  transition: 0.3s;
+}
+
+.aba:hover {
+  background: #6d6767;
+}
+
+.ativa {
+  background: #6d6767;
+  box-shadow: 0 0 10px #6d6767;
+}
 
 .glow {
   box-shadow: 0 0 15px rgba(133, 131, 131, 0.5);
