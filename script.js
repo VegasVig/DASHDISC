@@ -1,13 +1,25 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbzwWdhrj4pgd52M_1sslbSU4fN112XxcuR70KkvsqTzprAIeOkqWPIOJfow6q5rG-N4/exec";
-
-let dadosGlobais = [];
+const API_URL = "SUA_URL_AQUI";
 
 async function carregarDados() {
-  const res = await fetch(API_URL);
-  dadosGlobais = await res.json();
-  atualizarDashboard(dadosGlobais);
-}
+  try {
+    const res = await fetch(API_URL, {
+      method: "GET",
+      mode: "no-cors"
+    });
 
+    const text = await res.text();
+
+    // Corrige resposta vazia do no-cors
+    const data = JSON.parse(text || "[]");
+
+    dadosGlobais = data;
+    atualizarDashboard(data);
+
+  } catch (erro) {
+    console.error("Erro ao carregar:", erro);
+    alert("Erro ao conectar com API");
+  }
+}
 function filtrar() {
   const nome = document.getElementById("busca").value.toLowerCase();
   const inicio = document.getElementById("dataInicio").value;
