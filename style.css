@@ -11,7 +11,7 @@ header {
   gap: 20px;
   padding: 20px;
   background: #111;
-  border-bottom: 2px solid #d01010;
+  border-bottom: 2px solid #897e7e;
 }
 
 .logo {
@@ -20,7 +20,7 @@ header {
 }
 
 h1 {
-  color: #d01010;
+  color: #837979;
 }
 
 .filtros {
@@ -36,7 +36,7 @@ h1 {
 }
 
 button {
-  background: #d01010;
+  background: #7c7979;
   color: white;
   cursor: pointer;
 }
@@ -57,7 +57,7 @@ button {
 }
 
 .glow {
-  box-shadow: 0 0 15px rgba(208,16,16,0.5);
+  box-shadow: 0 0 15px rgba(133, 131, 131, 0.5);
 }
 
 .charts {
