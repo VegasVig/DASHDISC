@@ -41,7 +41,7 @@ Esse dashboard auxilia gestores e recrutadores na tomada de decisão e no melhor
 - JavaScript  
 - Google Sheets (armazenamento de dados)  
 - Google Apps Script (automação e integração)  
-- Biblioteca de gráficos / Chart.js (se estiver usando)  
+- Biblioteca de gráficos / Chart.js   
 
 ---
 
