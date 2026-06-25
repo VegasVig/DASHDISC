@@ -1,4 +1,4 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbymkx2cJPqjnslQ1HyvhxO6EgcCFw8as7gqTZb6VdzI6eT8pIJHW30-wCG6RlLIT9aD/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbykKmtbqyLrNcpCY8K579YEzE6xU_TmPlsHHuYgFUSzK_DldOZZwccgKPDJxiABzJIh/exec";
 
 let dadosGlobais = [];
 let abaAtual = "interno";
